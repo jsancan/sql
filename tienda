@@ -1,0 +1,72 @@
+create database TIENDA
+
+use tienda
+
+--tabla cliente
+create table T_Cliente(
+id_cliente int,
+nombreC varchar(50),
+apellidoC varchar(50),
+edad int,
+sexo varchar(10),
+constraint pk_ic primary key(id_cliente)
+)
+
+--tabla proveedor
+create table T_Proveedor(
+id_proveedor int,
+nombreP varchar(50),
+apellidoP varchar(50),
+direccionP varchar(50),
+constraint pk_ip primary key(id_proveedor)
+)
+
+--tabla sucursal
+create table T_Sucursal(
+id_sucursal int,
+nombreS varchar(50),
+direccionS varchar(50),
+constraint pk_is primary key(id_sucursal)
+)
+
+--tabla producto
+create table T_Producto(
+id_producto int,
+modelo varchar(20),
+marca varchar(20),
+precio float,
+id_proveedor1 int,
+constraint pk_iprod primary key(id_producto),
+constraint fk_iprov1 foreign key(id_proveedor1) references T_Proveedor(id_proveedor)
+)
+
+--tabla vendedor
+create table T_Vendedor(
+id_vendedor int,
+nombreV varchar(50),
+apellidoV varchar(50),
+id_sucursal1 int,
+constraint pk_iv primary key(id_vendedor),
+constraint fk_is1 foreign key(id_sucursal1) references T_Sucursal(id_sucursal)
+)
+
+--tabla ventas
+create table T_Ventas(
+id_ventas int,
+id_cliente1 int,
+id_producto1 int,
+id_vendedor1 int,
+fecha date,
+constraint pk_ivt primary key(id_ventas),
+constraint fk_ic1 foreign key(id_cliente1) references T_Cliente(id_cliente),
+constraint fk_iprod1 foreign key(id_producto1) references T_Producto(id_producto),
+constraint fk_iv1 foreign key(id_vendedor1) references T_Vendedor(id_vendedor)
+)
+
+--ventas-producto
+create table vent_prod(
+id_ventas1 int,
+id_producto2 int,
+constraint fk_ivt1 foreign key(id_ventas1) references T_Ventas(id_ventas),
+constraint fk_iprod2 foreign key(id_producto2) references T_Producto(id_producto)
+)
